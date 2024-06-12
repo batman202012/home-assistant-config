@@ -1,9 +1,17 @@
+from __future__ import annotations
+
 import voluptuous as vol
 
-from homeassistant.components.switch import PLATFORM_SCHEMA, SwitchDevice
-
-from homeassistant.const import TEMP_FAHRENHEIT
-from homeassistant.helpers.entity import Entity
+from homeassistant.components.switch import PLATFORM_SCHEMA
+from homeassistant.components.sensor import (
+    SensorDeviceClass,
+    SensorEntity,
+    SensorStateClass,
+)
+from homeassistant.const import UnitOfTemperature
+from homeassistant.core import HomeAssistant
+from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
 
 import homeassistant.helpers.config_validation as cv
 
@@ -32,15 +40,21 @@ EFFICIENCY_CHART = [
   [83, 86, 90, 93, 96]
 ]
 
-def setup_platform(hass, config, add_devices, discovery_info=None):
-    """Setup the sensor platform."""
+def setup_platform(
+    hass: HomeAssistant,
+    config: ConfigType,
+    add_entities: AddEntitiesCallback,
+    discovery_info: DiscoveryInfoType | None = None
+    ) -> None:
+        """Setup the sensor platform."""
+
     
-    humidity_sensor = config.get(CONF_HUMIDITY_SENSOR)
-    temperature_sensor = config.get(CONF_TEMPERATURE_SENSOR)
+        humidity_sensor = config.get(CONF_HUMIDITY_SENSOR)
+        temperature_sensor = config.get(CONF_TEMPERATURE_SENSOR)
 
-    add_devices([SwampEfficiencySensor(hass, humidity_sensor, temperature_sensor)])
+        add_entities([SwampEfficiencySensor(hass, humidity_sensor, temperature_sensor)])
 
-class SwampEfficiencySensor(Entity):
+class SwampEfficiencySensor(SensorEntity):
     """Representation of a Sensor."""
 
     def __init__(self, hass, humidity_sensor, temperature_sensor):
@@ -63,9 +77,9 @@ class SwampEfficiencySensor(Entity):
     @property
     def unit_of_measurement(self):
         """Return the unit of measurement."""
-        return TEMP_FAHRENHEIT
+        return UnitOfTemperature.FAHRENHEIT
 
-    def update(self):
+    def update(self) -> None:
         """Fetch new state data for the sensor.
 
         This is the only method that should fetch new data for Home Assistant.
