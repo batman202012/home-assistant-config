@@ -1,0 +1,13 @@
+{
+    "domain": "swamp_efficiency",
+    "name": "Swamp Efficiency",
+    "codeowners": [
+      "@AndBobsYourUncle"
+    ],
+    "dependencies": [],
+    "documentation": "https://github.com/AndBobsYourUncle/home-assistant-config.git",
+    "iot_class": "local_polling",
+    "requirements": [
+    ],
+    "version": "0.1.0"
+  }

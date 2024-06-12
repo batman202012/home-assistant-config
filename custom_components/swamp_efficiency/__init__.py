@@ -1,0 +1,1 @@
+"""Adds sensor to tell swamp cooler to turn off when no longer efficient and switch to ac instead."""
