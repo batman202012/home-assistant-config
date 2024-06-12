@@ -14,4 +14,4 @@ wemo_ips.yaml
 
 !custom_components/*
 
-!custom_components/sensor/*
+!custom_components/swamp_efficiency/*
